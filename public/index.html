@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrunkOS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!--<div class="logo">KrunkOS</div> --> 
+
+        <div class="stack" style="--stacks: 3;">
+            <span style="--index: 0;">KrunkOS</span>
+            <span style="--index: 1;">KrunkOS</span>
+            <span style="--index: 2;">KrunkOS</span>
+          </div>
+        <form id="passwordForm">
+            <input type="text" id="passwordInput" autocomplete="off" placeholder="Enter Password...">
+        </form>
+        <pre id="logContent"></pre>
+    </div>
+    <audio id="backgroundMusic" src="/misc/ambient.mp3" preload="auto"></audio>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

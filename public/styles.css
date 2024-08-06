@@ -1,0 +1,114 @@
+@keyframes glitch {
+    0% {
+      text-shadow: -2px 3px 0 red, 2px -3px 0 blue;
+      transform: translate(var(--glitch-translate));
+    }
+    2% {
+      text-shadow: 2px -3px 0 red, -2px 3px 0 blue;
+    }
+    4%, 100% {  text-shadow: none; transform: none; }
+  }
+
+  @keyframes stack {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%);
+      text-shadow: -2px 3px 0 red, 2px -3px 0 blue;
+    };
+    60% {
+      opacity: 0.5;
+      transform: translateX(50%);
+    }
+    80% {
+      transform: none;
+      opacity: 1;
+      text-shadow: 2px -3px 0 red, -2px 3px 0 blue;
+    }
+    100% {
+      text-shadow: none;
+    }
+  }
+
+body {
+    background-color: #0d0d0d;
+    color: #00ff00;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%; /* Adjust as needed */
+}
+
+.logo {
+    font-family: 'Press Start 2P', cursive; /* Pixelated font */
+    font-size: 2em; /* Adjust size as needed */
+    color: #00ff00;
+    margin-bottom: 20px; /* Space between logo and input field */
+    text-align: center; /* Center the text */
+    position: relative;
+    animation: glitch 2s infinite;
+}
+
+.stack {
+    display: grid;
+    grid-template-columns: 1fr;
+    font-family: 'Press Start 2P', cursive; /* Pixelated font */
+    font-size: 2em; /* Adjust size as needed */
+    color: #00ff00;
+    margin-bottom: 20px; /* Space between logo and input field */
+    text-align: center; /* Center the text */
+    position: relative;
+  }
+  
+  .stack span {
+    font-weight: bold;
+    grid-row-start: 1;
+    grid-column-start: 1;
+    font-size: 2rem;
+    --stack-height: calc(100% / var(--stacks) - 1px);
+    --inverse-index: calc(calc(var(--stacks) - 1) - var(--index));
+    --clip-top: calc(var(--stack-height) * var(--index));
+    --clip-bottom: calc(var(--stack-height) * var(--inverse-index));
+    clip-path: inset(var(--clip-top) 0 var(--clip-bottom) 0);
+    animation: stack 340ms cubic-bezier(.46,.29,0,1.24) 1 backwards calc(var(--index) * 120ms), glitch 2s ease infinite 2s alternate-reverse;
+  }
+  
+  .stack span:nth-child(odd) { --glitch-translate: 8px; }
+  .stack span:nth-child(even) { --glitch-translate: -8px; }
+
+#passwordInput {
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: #00ff00;
+    width: 100%; /* Make the input fill the container width */
+    max-width: 400px; /* Limit the width for larger screens */
+    text-align: center; /* Center the text */
+}
+
+pre {
+    border: 1px solid #00ff00;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #222;
+    color: #00ff00;
+    white-space: pre-wrap; /* Allow text wrapping */
+    word-wrap: break-word; /* Break long words to fit within the container */
+    text-align: left;
+    overflow: auto; /* Add scrollbars if content overflows */
+    width: 100%; /* Make the pre element fill the container width */
+    max-width: 800px; /* Limit the width for larger screens */
+    display: none; /* Hide initially */
+    opacity: 1; /* Full opacity */
+    transition: opacity 3s ease-out; /* Smooth opacity transition */
+}
