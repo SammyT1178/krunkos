@@ -46,4 +46,12 @@ document.addEventListener("DOMContentLoaded", function () {
             }, 3000); // Hide message after 3 seconds
         }
     });
+
+    const loader = document.getElementById('loader');
+    const mainContent = document.getElementById('mainContent');
+
+    setTimeout(() => {
+        loader.style.display ='none';
+        mainContent.style.display = 'flex';
+    }, 5000);
 });

@@ -8,7 +8,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="loader">
+        <div id='loader'>
+          <div id='title' class='flex'>
+            <p class='loading-text'>LOADING</p>
+            <div class='therefore'>∴</div>
+            <p class="loading-number">%</p>
+          </div>
+          <div id='loading-bar-border'>
+            <div class='loading-bar'>
+            </div>
+          </div>
+          <div id='warning'>
+            <p>
+              <div class='exclamation'>!</div>
+              &nbsp CAUTION, Do not turn off.
+            </p>
+          <div id='line-cascates'></div>
+          </div>
+        </div>
+    </div>
+
+    <div class="container" id="mainContent" style="display: none;">
         <div class="stack" style="--stacks: 3;">
             <span style="--index: 0;">KrunkOS</span>
             <span style="--index: 1;">KrunkOS</span>
