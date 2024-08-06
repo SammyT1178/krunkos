@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     passwordForm.addEventListener('submit', async function (e) {
         e.preventDefault();
         const password = passwordInput.value.trim();
-        const logsUrl = 'logs/' + password + '.txt'; // Adjusted path to logs
+        const logsUrl = '../logs/' + password + '.txt'; // Adjusted path to logs
         
         window.scrollTo(0, 0);
 
