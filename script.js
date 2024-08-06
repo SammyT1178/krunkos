@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         const password = passwordInput.value.trim();
         const logsUrl = 'logs/' + password + '.txt'; // Adjusted path to logs
+        
+        window.scrollTo(0, 0);
 
         try {
             const response = await fetch(logsUrl);
