@@ -1,11 +1,7 @@
 {
   "name": "krunkos",
-  "version": "1.0.0",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "build": "echo 'Build step not needed'"
-  },
+  "version": "1.0.0",  
+  "scripts": {},
   "dependencies": {
     "express": "^4.19.2"
   }
