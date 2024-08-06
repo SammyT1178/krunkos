@@ -9,8 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     });
-    
-    
 
     const passwordForm = document.getElementById('passwordForm');
     const passwordInput = document.getElementById('passwordInput');
@@ -27,15 +25,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 const text = await response.text();
                 logContent.style.display = 'block';
                 logContent.textContent = text;
+                logContent.classList.remove('hidden'); // Ensure it's visible
             } else {
                 logContent.style.display = 'block';
                 logContent.textContent = 'Logs not found';
-                setTimeout(() => logContent.style.display = 'none', 3000); // Hide message after 3 seconds
+                logContent.classList.remove('hidden'); // Ensure it's visible
+                setTimeout(() => {
+                    logContent.classList.add('hidden'); // Apply fade-out effect
+                }, 3000); // Hide message after 3 seconds
             }
         } catch (error) {
             console.error('Error fetching the log:', error);
             alert("Error fetching the log");
-            setTimeout(() => logContent.style.display = 'none', 3000); // Hide message after 3 seconds
+            logContent.style.display = 'block';
+            logContent.classList.remove('hidden'); // Ensure it's visible
+            setTimeout(() => {
+                logContent.classList.add('hidden'); // Apply fade-out effect
+            }, 3000); // Hide message after 3 seconds
         }
     });
 });

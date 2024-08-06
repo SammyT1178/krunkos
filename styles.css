@@ -112,3 +112,13 @@ pre {
     opacity: 1; /* Full opacity */
     transition: opacity 3s ease-out; /* Smooth opacity transition */
 }
+
+#logContent {
+  transition: opacity 1s ease-out;
+  opacity: 1;
+}
+
+#logContent.hidden {
+  opacity: 0;
+  display: none; /* Optional: Ensures it doesn't take up space when hidden */
+}
