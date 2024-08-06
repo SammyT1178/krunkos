@@ -28,8 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 logContent.style.display = 'block';
                 logContent.textContent = text;
             } else {
-                logContent.style.display = 'none';
-                alert("Logs not found");
+                logContent.style.display = 'block';
+                logContent.textContent = 'Logs not found';
                 setTimeout(() => logContent.style.display = 'none', 3000); // Hide message after 3 seconds
             }
         } catch (error) {
