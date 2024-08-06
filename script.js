@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     var audio = document.getElementById("backgroundMusic");
     audio.volume = 0.1; // Lower volume
-    audio.play();
+    audio.play().catch((error) => {
+        console.log('Audio playback error:', error);
+    });
 
     const passwordForm = document.getElementById('passwordForm');
     const passwordInput = document.getElementById('passwordInput');
