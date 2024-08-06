@@ -2,7 +2,7 @@
   "name": "krunkos",
   "version": "1.0.0",
   "scripts": {
-    "build": "cp -r public/* dist/"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.19.2",
