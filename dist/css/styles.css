@@ -46,8 +46,10 @@ body {
 .container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  width: 80%;
+  height: 100vh;
+  width: 100%;
 }
 
 .logo, .stack {
@@ -90,6 +92,10 @@ body {
 
 .stack span:nth-child(even) {
   --glitch-translate: -8px;
+}
+
+form {
+
 }
 
 #passwordInput {
