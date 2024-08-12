@@ -24,10 +24,24 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const response = await fetch(logsUrl);
             if (response.ok) {
+                logContent.textContent = '';
                 const text = await response.text();
+                let currentIndex=0;
+
                 logContent.style.display = 'block';
-                logContent.textContent = text;
                 logContent.classList.remove('hidden'); // Ensure it's visible
+
+                function printLetter(){
+                    if(currentIndex < text.length){
+                        logContent.textContent += text[currentIndex];
+                        logContent.scrollTop = logContent.scrollHeight;
+                        currentIndex++;
+                        setTimeout(printLetter, 25); 
+                    }
+                }
+
+                printLetter();
+
             } else {
                 logContent.style.display = 'block';
                 logContent.textContent = 'Logs not found';
