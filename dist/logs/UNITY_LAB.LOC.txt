@@ -1,0 +1,48 @@
+File Name: UNITY_LAB.LOC
+Data Format: Encrypted HoloMap
+File Size: 1.2 GB
+
+Opening File…
+
+Data Load: 1%... 25%... 73%... 100% [Decryption Complete]
+
+[DISPLAYING CONTENTS:]
+
+Coordinates: 47.5945° N, 122.3321° W
+Location: ███ █████ (Name Redacted)
+[Coordinates Cross-Reference…]
+
+Result: Location matches a derelict industrial sector in the Scrapyard, once a hub for illegal biotech research. No official records post-collapse.
+[PROJECT UNITY: LABORATORY ██ (BETA SITE)]
+
+Access Points: [1] Primary Gate (Heavily Guarded)
+[2] Underground Tunnel (Caved In)
+[3] Ventilation Shafts (Operational)
+
+Security Systems:
+
+[ACTIVE] Automated Turrets
+[ACTIVE] Bio-Recognition Locks
+[INACTIVE] Cryogenic Chambers
+Last Activity Logged: 20 years ago. [███ ██ ████]
+
+[LABORATORY ████████: OPERATIONAL DETAILS]
+
+Purpose: ██████████
+Experiments: Gene-splicing, neural augmentation, Cynetix protocol development.
+Key Personnel: Dr. ████████ ███, Dr. ████ ██████, [REDACTED]
+[DATA ANOMALY DETECTED: FILES CORRUPTED ██████]
+
+[Attempting Recovery…]
+
+[Recovered Data Fragment: Personal Logs]
+
+Log Entry 1: "We were so close… Unity could have been the future."
+Log Entry 2: "Stellarum’s creation was the breakthrough we needed. But it came at a cost… a terrible cost."
+Log Entry 3: "We hid the truth in the code. If anyone finds this… Project Unity must remain buried."
+[END OF DATA]
+[CHIP SAFE TO REMOVE]
+[WARNING: Data Integrity at 96% - Corruption Detected]
+
+[CLOSING FILE…]
+
