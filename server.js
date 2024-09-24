@@ -17,7 +17,7 @@ const dynamoDBTest = new AWS.DynamoDB();
 
 
 console.log('AWS Config:', {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID ? '******' : 'Not Set',
+    accessKeyId: process.env.ACCESS_KEY_ID ? '******' : 'Not Set',
     region: AWS.config.region,
 });
 
