@@ -3,7 +3,7 @@ const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { dynamoDB } = require('./dist//js/database');
-require('dotenv').config();
+// require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,7 +17,7 @@ const dynamoDBTest = new AWS.DynamoDB();
 
 
 console.log('AWS Config:', {
-    accessKeyId: process.env.ACCESS_KEY_ID ? '******' : 'Not Set',
+    accessKeyId: ACCESS_KEY_ID ? '******' : 'Not Set',
     region: AWS.config.region,
 });
 
