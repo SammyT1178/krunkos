@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Admin</title>
+    <link rel="stylesheet" href="../css/admin-styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Avaron Rho Bank Admin</h1>
+      <!-- Display Current Balance -->
+      <h2>Current Balance: <span id="current-balance">0 GP</span>
+      </h2>
+      <!-- Form to Add Transaction -->
+      <h2>Add Transaction</h2>
+      <form id="add-transaction-form">
+        <label>Date:</label>
+        <input type="date" id="transaction-date" required>
+        <label>Initial Amount:</label>
+        <input type="number" id="initial-amount" required>
+        <label>Source:</label>
+        <input type="text" id="source" required>
+        <!-- Source field added back -->
+        <label>Service Fee:</label>
+        <input type="number" id="service-fee" required>
+        <label>Other Fees:</label>
+        <input type="number" id="other-fees" required>
+        <button type="submit">Add Transaction</button>
+      </form>
+      <!-- Table of Existing Transactions -->
+      <h2>Existing Transactions</h2>
+      <table id="transaction-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Charge Amount</th>
+            <th>Source</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Transaction rows will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+    <script>
+      // Fetch current balance from the server
+      async function fetchCurrentBalance() {
+        const response = await fetch('/api/current-balance'); // Update with your endpoint
+        const balance = await response.json();
+        document.getElementById('current-balance').textContent = `${balance} GP`;
+      }
+      // Function to delete a transaction
+      async function deleteTransaction(id) {
+        const confirmation = confirm("Are you sure you want to delete this transaction?");
+        if (confirmation) {
+          await fetch(`/api/transactions/${id}`, {
+            method: 'DELETE'
+          });
+          fetchTransactions(); // Refresh the transaction list
+          fetchCurrentBalance(); // Refresh the current balance
+        }
+      }
+      // Fetch existing transactions
+      async function fetchTransactions() {
+        try {
+          const response = await fetch('/api/transactions'); // Adjust the endpoint as necessary
+          if (!response.ok) {
+            throw new Error('Failed to fetch transactions');
+          }
+          const transactions = await response.json();
+          const transactionTableBody = document.querySelector('#transaction-table tbody');
+          // Clear existing rows
+          transactionTableBody.innerHTML = '';
+          // Populate the table with transaction data
+          transactions.forEach(transaction => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                
+											<td>${transaction.id}</td>
+											<td>${transaction.date}</td>
+											<td>${transaction.chargeAmount} GP</td>
+											<td>${transaction.source}</td>
+											<td>
+												<button onclick="editTransaction('${transaction.id}')">Edit</button>
+												<button onclick="deleteTransaction('${transaction.id}')">Delete</button>
+											</td>
+            `;
+            transactionTableBody.appendChild(row);
+          });
+        } catch (error) {
+          console.error('Error fetching transactions:', error);
+        }
+      }
+      // Handle adding a new transaction
+      document.getElementById('add-transaction-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        // Fetch and trim values
+        const initialAmountRaw = document.getElementById('initial-amount').value.trim();
+        const serviceFeeRaw = document.getElementById('service-fee').value.trim();
+        const otherFeesRaw = document.getElementById('other-fees').value.trim();
+        // Log raw input values
+        console.log('Raw Values:', {
+          initialAmount: initialAmountRaw,
+          serviceFee: serviceFeeRaw,
+          otherFees: otherFeesRaw
+        });
+        // Parse the values to numbers
+        const initialAmount = parseFloat(initialAmountRaw);
+        const serviceFee = parseFloat(serviceFeeRaw);
+        const otherFees = parseFloat(otherFeesRaw);
+        // Log parsed values
+        console.log('Parsed Values:', {
+          initialAmount,
+          serviceFee,
+          otherFees
+        });
+        // Validate inputs to ensure they're valid numbers
+        if (isNaN(initialAmount) || isNaN(serviceFee) || isNaN(otherFees)) {
+          console.log('Validation Failed: One or more fields are NaN.');
+          alert('Please enter valid numbers for Initial Amount, Service Fee, and Other Fees.');
+          return; // Stop execution if validation fails
+        } else {
+          console.log('Validation Passed: All fields are valid numbers.');
+        }
+        // Calculate the charge amount
+        const chargeAmount = initialAmount - (serviceFee + otherFees); // Calculate charge amount
+        console.log('Charge Amount:', chargeAmount);
+        const newTransaction = {
+          date: document.getElementById('transaction-date').value,
+          initialAmount,
+          chargeAmount, // Use the calculated charge amount
+          source: document.getElementById('source').value, // Get the source value
+          serviceFee,
+          otherFees,
+        };
+        console.log('Submitting transaction:', newTransaction);
+        try {
+          const response = await fetch('/api/transactions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newTransaction),
+          });
+          // Check if the response is OK (status in the range 200-299)
+          if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Error fetching transactions:', errorData);
+            alert(`Error: ${errorData.message || 'Failed to add transaction'}`);
+            return; // Stop execution if there is an error
+          }
+          const data = await response.json();
+          console.log('Transaction added successfully:', data);
+        } catch (error) {
+          console.error('Error occurred while adding transaction:', error);
+        }
+        fetchTransactions(); // Refresh the transaction list
+        fetchCurrentBalance(); // Refresh the current balance
+        document.getElementById('add-transaction-form').reset(); // Reset the form
+      });
+      // Fetch transactions and current balance on page load
+      document.addEventListener('DOMContentLoaded', () => {
+        fetchTransactions(); // Fetch and populate transactions
+        fetchCurrentBalance(); // Fetch current balance (assuming this function exists)
+      });
+    </script>
+  </body>
+</html>

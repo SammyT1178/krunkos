@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Transactions</title>
+    <link rel="stylesheet" href="../css/bank-styles.css">
+    <style>
+        .details-row {
+            display: none; /* Initially hide the details rows */
+        }
+        .details-row.visible {
+            display: table-row; /* Show the details row when 'visible' class is added */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Avaron Rho Bank</h1>
+        <h2 id="current-balance"><strong>Current Balance: <span id="balance-value">0.00</span> GP</strong></h2> <!-- Added current balance -->
+        
+        <!-- Sort Button -->
+        <button id="sort-button" onclick="toggleSort()">Sort by Date (Descending)</button>
+
+        <!-- Table of Transactions -->
+        <table id="transaction-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Charge Amount</th>
+                    <th>Source</th>
+                    <th>Running Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Transactions will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let transactions = []; // Store fetched transactions
+        let isDescending = true; // State to track the sort order
+
+        // Fetch transactions from DynamoDB
+        async function fetchTransactions() {
+            const response = await fetch('/api/transactions');
+            transactions = await response.json(); // Store transactions for sorting
+            renderTransactions();
+        }
+
+        // Render transactions in the table
+        function renderTransactions() {
+            const transactionTableBody = document.querySelector('#transaction-table tbody');
+            let currentBalance = 0; // Initialize current balance
+
+            // Clear existing rows
+            transactionTableBody.innerHTML = '';
+
+            // Process transactions in the current sort order
+            for (let i = 0; i < transactions.length; i++) {
+                const transaction = transactions[i];
+
+                // Calculate final amount and running total
+                const initialAmount = parseFloat(transaction.initialAmount);
+                const serviceFee = parseFloat(transaction.serviceFee);
+                const otherFees = parseFloat(transaction.otherFees);
+                const finalAmount = initialAmount - (serviceFee + otherFees);
+
+                // Update current balance
+                currentBalance += finalAmount;
+
+                // Create transaction row
+                const row = document.createElement('tr');
+                row.classList.add('transaction-item');
+                row.setAttribute('onclick', 'toggleDetails(this)');
+                row.innerHTML = `
+                    <td data-label="Date">${transaction.date}</td>
+                    <td data-label="Charge Amount" class="charge-amount" style="color: ${transaction.chargeAmount > 0 ? 'green' : 'red'};">
+                        ${transaction.chargeAmount} GP
+                    </td>
+                    <td data-label="Source">${transaction.source}</td>
+                    <td data-label="Running Total">${currentBalance.toFixed(2)} GP</td>
+                `;
+                transactionTableBody.appendChild(row);
+
+                // Create details row
+                const detailsRow = document.createElement('tr');
+                detailsRow.classList.add('details-row');
+                detailsRow.innerHTML = `
+                    <td colspan="4" class="details">
+                        <div>Initial Amount: ${initialAmount} GP</div>
+                        <div>Service Fee: ${serviceFee} GP</div>
+                        <div>Other Fees: ${otherFees} GP</div>
+                        <div>Final Amount: ${finalAmount.toFixed(2)} GP</div>
+                    </td>
+                `;
+                transactionTableBody.appendChild(detailsRow);
+            }
+
+            // Update the balance in the HTML
+            document.getElementById('balance-value').innerText = currentBalance.toFixed(2);
+        }
+
+        // Function to toggle sorting order
+        function toggleSort() {
+            isDescending = !isDescending; // Toggle the sort order
+            transactions.sort((a, b) => isDescending 
+                ? new Date(b.date) - new Date(a.date) // Descending order
+                : new Date(a.date) - new Date(b.date) // Ascending order
+            );
+            document.getElementById('sort-button').innerText = isDescending 
+                ? 'Sort by Date (Ascending)' 
+                : 'Sort by Date (Descending)'; // Update button text
+            renderTransactions(); // Re-render transactions
+        }
+
+        // Call fetchTransactions on page load
+        document.addEventListener('DOMContentLoaded', fetchTransactions);
+
+        // Function to toggle the details view
+        function toggleDetails(row) {
+            const nextRow = row.nextElementSibling;
+            if (nextRow && nextRow.classList.contains('details-row')) {
+                nextRow.classList.toggle('visible');
+            }
+        }
+    </script>
+</body>
+</html>
