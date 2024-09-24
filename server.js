@@ -3,7 +3,7 @@ const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { dynamoDB } = require('./dist//js/database');
-// require('dotenv').config();
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,9 +17,10 @@ const dynamoDBTest = new AWS.DynamoDB();
 
 
 console.log('AWS Config:', {
-    accessKeyId: ACCESS_KEY_ID ? '******' : 'Not Set',
+    accessKeyId: process.env.ACCESS_KEY_ID ? '******' : 'Not Set',
     region: AWS.config.region,
 });
+
 
 
 dynamoDBTest.listTables({}, (err, data) => {
@@ -29,6 +30,10 @@ dynamoDBTest.listTables({}, (err, data) => {
     console.log('Tables in DynamoDB:', data.TableNames);
   }
 });
+
+// In your Node.js backend (e.g., server.js, app.js)
+console.log('ACCESS_KEY_ID:', process.env.ACCESS_KEY_ID);
+console.log('SECRET_ACCESS_KEY:', process.env.SECRET_ACCESS_KEY);
 
 
 // Serve static files from the public directory
