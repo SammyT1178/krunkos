@@ -21,8 +21,6 @@ console.log('AWS Config:', {
     region: AWS.config.region,
 });
 
-
-
 dynamoDBTest.listTables({}, (err, data) => {
   if (err) {
     console.error('Error listing tables:', err);
